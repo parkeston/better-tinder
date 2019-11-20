@@ -1,15 +1,15 @@
 package com.example.bettertinder.views;
 
-import com.example.bettertinder.ItemModel;
+import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
 public interface OnFragmentSwitchedListener {
     void onFragmentSwitched(FragmentType type);
 
-    ArrayList<ItemModel> getLikedItems();
+    ArrayList<Bitmap> getLikedItems();
 
-    void setLikedItems(ArrayList<ItemModel> likedItems);
+    void setLikedItems(ArrayList<Bitmap> likedItems);
 
     enum FragmentType {
         HOME,

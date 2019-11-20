@@ -2,6 +2,8 @@ package com.example.bettertinder.views;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +15,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bettertinder.ItemModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.bettertinder.R;
 import com.example.bettertinder.cardstack.CardStackAdapter;
 import com.example.bettertinder.cardstack.CardStackLayoutManager;
 import com.example.bettertinder.cardstack.input.CardStackTouchHelperCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -28,6 +33,9 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private OnFragmentSwitchedListener fragmentSwitchedListener;
+    private CardStackAdapter adapter;
+
+    private int glideLoadCounter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,36 +62,47 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerView = getActivity().findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        CardStackAdapter adapter = new CardStackAdapter(createItems(), fragmentSwitchedListener);
-
-        ItemTouchHelper touchHelper = new ItemTouchHelper(new CardStackTouchHelperCallback(adapter));
-        touchHelper.attachToRecyclerView(recyclerView);
-
         CardStackLayoutManager manager = new CardStackLayoutManager();
         manager.setMaxShowCount(3);
         manager.setTransYGap(21);
         manager.setScaleGap(0.05f);
-        manager.setAngle(15);
+        manager.setAngle(20);
         manager.setAnimationDuratuion(450);
         recyclerView.setLayoutManager(manager);
 
-        recyclerView.setAdapter(adapter);
+        generateAdapterData(recyclerView, 10);
     }
 
-    private ArrayList<ItemModel> createItems() {
-        ArrayList<ItemModel> items = new ArrayList<>();
-        items.add(new ItemModel("0.Yasaka Shrine", "Kyoto", "https://source.unsplash.com/Xq1ntWruZQI/600x800"));
-        items.add(new ItemModel("1.Fushimi Inari Shrine", "Kyoto", "https://source.unsplash.com/NYyCqdBOKwc/600x800"));
-        items.add(new ItemModel("2.Bamboo Forest", "Kyoto", "https://source.unsplash.com/buF62ewDLcQ/600x800"));
-        items.add(new ItemModel("3.Brooklyn Bridge", "New York", "https://source.unsplash.com/THozNzxEP3g/600x800"));
-        items.add(new ItemModel("4.Empire State Building", "New York", "https://source.unsplash.com/USrZRcRS2Lw/600x800"));
-        items.add(new ItemModel("5.The statue of Liberty", "New York", "https://source.unsplash.com/PeFk7fzxTdk/600x800"));
-        items.add(new ItemModel("6.Louvre Museum", "Paris", "https://source.unsplash.com/LrMWHKqilUw/600x800"));
-        items.add(new ItemModel("7.Eiffel Tower", "Paris", "https://source.unsplash.com/HN-5Z6AmxrM/600x800"));
-        items.add(new ItemModel("8.Big Ben", "London", "https://source.unsplash.com/CdVAUADdqEc/600x800"));
-        items.add(new ItemModel("9.Great Wall of China", "China", "https://source.unsplash.com/AWh9C-QjhE4/600x800"));
 
-        return items;
+    private void generateAdapterData(final RecyclerView recyclerView, final int dataSize) {
+        final Bitmap[] data = new Bitmap[dataSize];
+        String dataUrl = "https://source.unsplash.com/collection/3336145/600x800";
+        glideLoadCounter = 0;
+
+        for (int i = 0; i < dataSize; i++) {
+            final int k = i;
+
+            Glide.with(getContext()).asBitmap().load(dataUrl + "?sig=" + k).into(new CustomTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    data[k] = resource;
+                    glideLoadCounter++;
+
+                    if (glideLoadCounter == dataSize) {
+                        adapter = new CardStackAdapter(new ArrayList<Bitmap>(Arrays.asList(data)), fragmentSwitchedListener);
+                        recyclerView.setAdapter(adapter);
+                        ItemTouchHelper touchHelper = new ItemTouchHelper(new CardStackTouchHelperCallback(adapter));
+                        touchHelper.attachToRecyclerView(recyclerView);
+                    }
+                }
+
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            });
+        }
     }
 
 }

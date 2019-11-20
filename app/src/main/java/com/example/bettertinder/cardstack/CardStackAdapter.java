@@ -1,21 +1,14 @@
 package com.example.bettertinder.cardstack;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.example.bettertinder.ItemModel;
 import com.example.bettertinder.R;
 import com.example.bettertinder.cardstack.input.OnItemSwipedListener;
 import com.example.bettertinder.cardstack.input.OnItemSwipedPrecentageListener;
@@ -25,21 +18,20 @@ import com.example.bettertinder.views.custom.CanvasImageView;
 import java.util.ArrayList;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ItemView> implements OnItemSwipedListener {
-    private ArrayList<ItemModel> data;
-    private ArrayList<ItemModel> likedItems;
+    private ArrayList<Bitmap> data;
+    private ArrayList<Bitmap> likedItems;
     private OnFragmentSwitchedListener fragmentSwitchedListener;
 
-    public CardStackAdapter(ArrayList<ItemModel> data, OnFragmentSwitchedListener fragmentSwitchedListener) {
-        this.data = data;
-        this.fragmentSwitchedListener = fragmentSwitchedListener;
 
+    public CardStackAdapter(ArrayList<Bitmap> data, OnFragmentSwitchedListener fragmentSwitchedListener) {
+        this.data = data;
         likedItems = new ArrayList<>();
+        this.fragmentSwitchedListener = fragmentSwitchedListener;
     }
 
     @NonNull
     @Override
     public ItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_spot, parent, false);
         return new ItemView(v);
     }
@@ -56,10 +48,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Item
 
     @Override
     public void onItemSwiped() {
-        data.add(data.get(0));
         data.remove(0);
         notifyItemRemoved(0);
-        notifyItemInserted(data.size() - 1);
 
         if (data.size() == 0) {
             fragmentSwitchedListener.setLikedItems(likedItems);
@@ -78,9 +68,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Item
 
     }
 
-    public static class ItemView extends RecyclerView.ViewHolder implements OnItemSwipedPrecentageListener {
+    public class ItemView extends RecyclerView.ViewHolder implements OnItemSwipedPrecentageListener {
         private CanvasImageView image;
-        private TextView title, city;
 
         private View leftOverlay, rightOverlay;
 
@@ -88,30 +77,13 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Item
             super(itemView);
 
             image = itemView.findViewById(R.id.item_image);
-            title = itemView.findViewById(R.id.item_name);
-            city = itemView.findViewById(R.id.item_city);
 
             leftOverlay = itemView.findViewById(R.id.left_overlay);
             rightOverlay = itemView.findViewById(R.id.right_overlay);
         }
 
-        public void SetData(ItemModel model) {
-            title.setText(model.getTitle());
-            city.setText(model.getCity());
-
-
-            Glide.with(image).asBitmap().load(model.getImageUrl()).into(new CustomTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    image.setBitmapToDraw(resource);
-
-                }
-
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                }
-            });
+        public void SetData(Bitmap bitmap) {
+            image.setBitmapToDraw(bitmap);
         }
 
         @Override

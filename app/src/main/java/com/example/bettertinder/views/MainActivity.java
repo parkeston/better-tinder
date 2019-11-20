@@ -1,12 +1,12 @@
 package com.example.bettertinder.views;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.bettertinder.ItemModel;
 import com.example.bettertinder.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentSwitche
     private ResultFragment resultFragment;
     private FragmentManager fragmentManager;
 
-    private ArrayList<ItemModel> likedItems;
+    private ArrayList<Bitmap> likedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentSwitche
     }
 
     @Override
-    public ArrayList<ItemModel> getLikedItems() {
+    public ArrayList<Bitmap> getLikedItems() {
         return likedItems;
     }
 
     @Override
-    public void setLikedItems(ArrayList<ItemModel> likedItems) {
+    public void setLikedItems(ArrayList<Bitmap> likedItems) {
         this.likedItems = likedItems;
     }
 }

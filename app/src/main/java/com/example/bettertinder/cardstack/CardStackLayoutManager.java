@@ -58,6 +58,7 @@ public class CardStackLayoutManager extends RecyclerView.LayoutManager {
 
             if (position > 0) {
                 view.setScaleX(1 - scaleGap * position);
+
                 if (position < maxShowCount - 1) {
                     view.setTranslationY((transYGap * position));
                 } else {
