@@ -14,17 +14,21 @@ import androidx.annotation.Nullable;
 
 public class CanvasHomeButton extends View {
 
-    private static final int DEFAULT_COLOR = Color.rgb(35, 0, 200);
+    private static final int BACKGROUND_COLOR = Color.rgb(255, 204, 0);
+    private static final int HOME_COLOR = Color.rgb(50, 50, 50);
+
     private static final float HOME_WIDTH_PERCENT = 0.5f;
     private static final float DOOR_WIDTH_PERCENT = 0.35f;
     private static final float DOOR_HEIGHT_PERCENT = 0.6f;
+
     private RectF backDrawBounds;
     private RectF homeBaseDrawBounds;
     private RectF doorDrawBounds;
+
     private Path roofPath;
+
     private Paint basePaint;
     private Paint homePaint;
-
 
     public CanvasHomeButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -36,11 +40,11 @@ public class CanvasHomeButton extends View {
         roofPath = new Path();
 
         basePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        basePaint.setColor(DEFAULT_COLOR);
+        basePaint.setColor(BACKGROUND_COLOR);
         basePaint.setStyle(Paint.Style.FILL);
 
         homePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        homePaint.setColor(Color.WHITE);
+        homePaint.setColor(HOME_COLOR);
         homePaint.setStyle(Paint.Style.FILL);
 
     }
@@ -95,7 +99,7 @@ public class CanvasHomeButton extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawRoundRect(backDrawBounds, 20, 20, basePaint);
+        canvas.drawRoundRect(backDrawBounds, 50, 50, basePaint);
         canvas.drawRect(homeBaseDrawBounds, homePaint);
         canvas.drawPath(roofPath, homePaint);
         canvas.drawRect(doorDrawBounds, basePaint);
