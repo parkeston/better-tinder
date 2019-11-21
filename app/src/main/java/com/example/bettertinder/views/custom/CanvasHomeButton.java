@@ -17,7 +17,7 @@ public class CanvasHomeButton extends View {
     private static final int BACKGROUND_COLOR = Color.rgb(255, 204, 0);
     private static final int HOME_COLOR = Color.rgb(50, 50, 50);
 
-    private static final float HOME_WIDTH_PERCENT = 0.5f;
+    private static final float HOME_SIZE_PERCENT = 0.5f;
     private static final float DOOR_WIDTH_PERCENT = 0.35f;
     private static final float DOOR_HEIGHT_PERCENT = 0.6f;
 
@@ -54,7 +54,7 @@ public class CanvasHomeButton extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        UpdateDrawBounds(HOME_WIDTH_PERCENT, DOOR_WIDTH_PERCENT, DOOR_HEIGHT_PERCENT);
+        UpdateDrawBounds(HOME_SIZE_PERCENT, DOOR_WIDTH_PERCENT, DOOR_HEIGHT_PERCENT);
 
         invalidate();
         requestLayout();
