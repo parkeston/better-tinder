@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
         manager.setMaxShowCount(3);
         manager.setTransYGap(21);
         manager.setScaleGap(0.05f);
-        manager.setAngle(20);
+        manager.setAngle(-20);
         manager.setAnimationDuratuion(450);
         recyclerView.setLayoutManager(manager);
 
