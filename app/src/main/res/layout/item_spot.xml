@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#F01818" />
+            android:background="#4DF01818" />
 
     </FrameLayout>
 
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#1BD89C" />
+            android:background="#4D1BD89C" />
 
     </FrameLayout>
 
