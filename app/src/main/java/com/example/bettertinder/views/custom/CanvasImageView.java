@@ -1,9 +1,13 @@
 package com.example.bettertinder.views.custom;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -14,11 +18,25 @@ public class CanvasImageView extends View {
     private Bitmap bitmapToDraw;
     private Matrix mShaderMatrix;
 
+    private Paint paint;
+    private RectF rectF;
+
     public CanvasImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         bitmapToDraw = null;
         mShaderMatrix = new Matrix();
+
+        if (attrs != null) {
+            int[] set = {android.R.attr.background};
+            TypedArray a = context.obtainStyledAttributes(attrs, set);
+
+            rectF = new RectF();
+            paint = new Paint();
+            paint.setColor(a.getColor(0, Color.TRANSPARENT));
+
+            a.recycle();
+        }
     }
 
     public void setBitmapToDraw(Bitmap bitmapToDraw) {
@@ -32,6 +50,18 @@ public class CanvasImageView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
 
         updateBitmapSize();
+        updateRect();
+    }
+
+    private void updateRect() {
+        if (rectF == null) return;
+
+        float viewWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        float viewHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+        rectF.set(0, 0, viewWidth, viewHeight);
+
+        invalidate();
+        requestLayout();
     }
 
     //scaling center_crop logic, using matrix
@@ -68,5 +98,7 @@ public class CanvasImageView extends View {
 
         if (bitmapToDraw != null)
             canvas.drawBitmap(bitmapToDraw, mShaderMatrix, null);
+        else
+            canvas.drawRect(rectF, paint);
     }
 }

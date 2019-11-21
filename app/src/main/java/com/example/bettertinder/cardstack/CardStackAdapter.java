@@ -96,5 +96,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Item
             } else
                 rightOverlay.setAlpha(percentage);
         }
+
+
     }
 }

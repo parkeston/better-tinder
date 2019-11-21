@@ -18,11 +18,11 @@
         android:alpha="0"
         android:background="@drawable/overlay_black">
 
-        <ImageView
+        <com.example.bettertinder.views.custom.CanvasImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/skip_white_120dp" />
+            android:background="#4DF01818" />
 
     </FrameLayout>
 
@@ -33,11 +33,11 @@
         android:alpha="0"
         android:background="@drawable/overlay_black">
 
-        <ImageView
+        <com.example.bettertinder.views.custom.CanvasImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/like_white_120dp" />
+            android:background="#4D1BD89C" />
 
     </FrameLayout>
 
